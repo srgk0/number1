@@ -1,8 +1,8 @@
 <?php
 // DB connection info
-$host = "tcp:srgk0.database.windows.net,1433";
+$host = "localhost\srgk0.database.windows.net,1433";
 $user = "srgk0";
-$pwd = "priorar225os";
+$pwd = "PRiorar225OS";
 $db = "first";
 try{
     $conn = new PDO("sqlsrv:server = tcp:srgk0.database.windows.net,1433; Database = first", "srgk0", "PRiorar225OS");
