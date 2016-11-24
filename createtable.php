@@ -1,11 +1,11 @@
 <?php
 // DB connection info
 $host = "localhost\sqlexpress";
-$user = "srgk0";
-$pwd = "priorar225os";
-$db = "first";
+$user = "ytrewq";
+$pwd = "QWERTYqwerty123";
+$db = "forzelen";
 try{
-    $conn = new PDO("sqlsrv:server = tcp:srgk0.database.windows.net,1433; Database = first", "srgk0", "priorar225os");
+    $conn = new PDO("sqlsrv:server = tcp:srgk01.database.windows.net,1433; Database = "forzelen", "ytrewq", "QWERTYqwerty123");
     $conn->setAttribute
 ( PDO::ATTR_ERRMODE, 
 PDO::ERRMODE_EXCEPTION );
