@@ -1,6 +1,6 @@
 <?php
 // DB connection info
-$host = "localhost\srgk0.database.windows.net,1433";
+$host = "localhost\sqlexpress";
 $user = "srgk0";
 $pwd = "priorar225os";
 $db = "first";
