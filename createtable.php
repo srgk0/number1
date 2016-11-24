@@ -2,10 +2,10 @@
 // DB connection info
 $host = "localhost\srgk0.database.windows.net,1433";
 $user = "srgk0";
-$pwd = "PRiorar225OS";
+$pwd = "priorar225os";
 $db = "first";
 try{
-    $conn = new PDO("sqlsrv:server = tcp:srgk0.database.windows.net,1433; Database = first", "srgk0", "PRiorar225OS");
+    $conn = new PDO("sqlsrv:server = tcp:srgk0.database.windows.net,1433; Database = first", "srgk0", "priorar225os");
     $conn->setAttribute
 ( PDO::ATTR_ERRMODE, 
 PDO::ERRMODE_EXCEPTION );
