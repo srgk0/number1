@@ -37,7 +37,7 @@ name="submit" value="Submit" />
 </form>
 <?php
 // DB connection info
-$host = "tcp:srgk0.database.windows.net,1433";
+$host = "localhost\sqlexpress";
 $user = "srgk0";
 $pwd = "priorar225os";
 $db = "first";
