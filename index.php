@@ -43,7 +43,7 @@ $pwd = "priorar225os";
 $db = "first";
 // Connect to database.
 try {
-    $conn = new PDO("sqlsrv:server = tcp:srgk0.database.windows.net,1433; Database = first", "srgk0", "priorar225os");
+    $conn = new PDO("sqlsrv:server = tcp:srgk0.database.windows.net,1433; Database = first", "srgk0", "PRiorar225OS");
     $conn->setAttribute
 ( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 }
