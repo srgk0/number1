@@ -1,4 +1,4 @@
-<?php
+?php
 // DB connection info
 $host = "localhost\sqlexpress";
 $user = "ytrewq";
