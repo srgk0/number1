@@ -1,13 +1,8 @@
-?php
-// DB connection info
-$host = "localhost\sqlexpress";
-$user = "ytrewq";
-$pwd = "QWERTYqwerty123";
-$db = "forzelen";
+<?php
 try{
     $conn = new PDO("sqlsrv:server = tcp:srgk01.database.windows.net,1433; Database = "forzelen", "ytrewq", "QWERTYqwerty123");
     $conn->setAttribute
-( PDO::ATTR_ERRMODE, 
+( PDO::ATTR_ERRMODE,
 PDO::ERRMODE_EXCEPTION );
     $sql = "CREATE TABLE registration_tbl(
     id INT NOT NULL IDENTITY(1,1) 
