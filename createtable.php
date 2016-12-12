@@ -1,4 +1,8 @@
-<h1>Регистрация</h1> 
+<html>
+  <head>
+  </head>
+    <body>
+  <h1>Регистрация</h1> 
 <p>Заполните ваше имя и адрес электронной почты, затем нажмите кнопку Отправить, чтобы зарегистрироваться.</p> 
 <form method="post" action="reg.php" 
 enctype="multipart/form-data" > 
@@ -12,13 +16,13 @@ name="password" id="passw"/></br>
 name="submit" value="Отправить" /> 
 </form> 
 <?php 
-$host = "localhost\sqlexpress"; 
-$user = "makkdragonhawk"; 
-$pwd = "makkDR3748"; 
-$db = "sqldatabase2"; 
+$host = "tcp:srgk01.database.windows.net,1433"; 
+$user = "ytrewq"; 
+$pwd = "QWERTYqwerty123"; 
+$db = "forzelen"; 
 // Connect to database. 
 try { 
-$conn = new PDO("sqlsrv:server = tcp:sqldatabase2.database.windows.net,1433; Database = sqldatabase2", "makkdragonhawk", "makkDR3748"); 
+$conn = new PDO("sqlsrv:server = tcp:srgk01.database.windows.net,1433; Database = forzelen", "ytrewq", "QWERTYqwerty123"); 
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 } 
 catch (PDOException $e) { 
