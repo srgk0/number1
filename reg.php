@@ -55,18 +55,7 @@ try {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $date = date("Y-m-d");
-    include ("bd.php");// файл bd.php должен быть в той же папке, что и все остальные, если это не так, то просто измените путь 
- 
-$result = mysql_query("SELECT * FROM users WHERE login='$login'",$db); //извлекаем из базы все данные о пользователе с введенным логином
-    $myrow = mysql_fetch_array($result);
-    if ($myrow['password']==$password))
-    {
-    //если пользователя с введенным логином не существует
-    exit ("Извините, введённый вами login или пароль неверный.");
-    }
-    else {
-    //если существует, то сверяем пароли
-    if (empty($myrow['password']) {
+    
     // Insert data
     $sql_insert = 
 "INSERT INTO registration_tbl (name, email, date) 
@@ -81,7 +70,7 @@ catch(Exception $e) {
     die(var_dump($e));
 }
 echo "<h3>Your're registered!</h3>";
-}}
+}
 $sql_select = "SELECT * FROM registration_tbl";
 $stmt = $conn->query($sql_select);
 $registrants = $stmt->fetchAll(); 
