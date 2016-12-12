@@ -55,6 +55,11 @@ try {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $date = date("Y-m-d");
+    $result = mysql_query("SELECT id FROM registration_tbl WHERE login='$email'",$dbcon);
+    $myrow = mysql_fetch_array($result);
+    if (!empty($myrow["id"])) {
+    exit ("Извините, введённый вами логин уже зарегистрирован.<a href='forma_reg.php'> Введите другой логин</a>.");
+    }
     // Insert data
     $sql_insert = 
 "INSERT INTO registration_tbl (name, email, date) 
