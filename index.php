@@ -44,8 +44,7 @@ $db = "forzelen";
 // Connect to database.
 try {
     $conn = new PDO("sqlsrv:server = tcp:srgk01.database.windows.net,1433; Database = forzelen", "ytrewq", "QWERTYqwerty123");
-    $conn->setAttribute
-( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $e) {
     print("Error connecting to SQL Server.");
