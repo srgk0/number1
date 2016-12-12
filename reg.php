@@ -1,24 +1,105 @@
 <html>
-    <head>
-    <title>Регистрация</title>
-    </head>
-    <body>
-    <h2>Регистрация</h2>
-    <form action="save_user.php" method="post">
-    <!--**** save_user.php - это адрес обработчика.  То есть, после нажатия на кнопку "Зарегистрироваться", данные из полей  отправятся на страничку save_user.php методом "post" ***** -->
-<p>
-    <label>Ваш логин:<br></label>
-    <input name="login" type="text" size="15" maxlength="15">
-    </p>
-<!--**** В текстовое поле (name="login" type="text") пользователь вводит свой логин ***** -->
-<p>
-    <label>Ваш пароль:<br></label>
-    <input name="password" type="password" size="15" maxlength="15">
-    </p>
-<!--**** В поле для паролей (name="password" type="password") пользователь вводит свой пароль ***** --> 
-<p>
-    <input type="submit" name="submit" value="Зарегистрироваться">
-<!--**** Кнопочка (type="submit") отправляет данные на страничку save_user.php ***** --> 
-</p></form>
-    </body>
-    </html>
+<head>
+<Title>Registration Form</Title>
+<style type="text/css">
+    body { background-color:
+ #fff; border-top: solid 10px #000;
+ color: #333; font-size: .85em;
+ margin: 20; padding: 20;
+ font-family: "Segoe UI",
+ Verdana, Helvetica, Sans-Serif;
+    }
+    h1, h2, h3,{ color: #000; 
+margin-bottom: 0; padding-bottom: 0; }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.75em; }
+    h3 { font-size: 1.2em; }
+    table { margin-top: 0.75em; }
+    th { font-size: 1.2em;
+ text-align: left; border: none; padding-left: 0; }
+    td { padding: 0.25em 2em 0.25em 0em; 
+border: 0 none; }
+</style>
+</head>
+<body>
+<h1>Register here!</h1>
+<p>Fill in your name and 
+email address, then click <strong>Submit</strong> 
+to register.</p>
+<form method="post" action="index.php" 
+enctype="multipart/form-data" >
+      Name  <input type="text" 
+name="name" id="name"/></br>
+      Email <input type="text" 
+name="email" id="email"/></br>
+      <input type="submit" 
+name="submit" value="Submit" />
+</form>
+<?php
+// DB connection info
+$host = "tcp:srgk01.database.windows.net,1433";
+$user = "ytrewq";
+$pwd = "QWERTYqwerty123";
+$db = "forzelen";
+// Connect to database.
+try {
+    $conn = new PDO("sqlsrv:server = tcp:srgk01.database.windows.net,1433; Database = forzelen", "ytrewq", "QWERTYqwerty123");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+if(!empty($_POST)) {
+try {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $date = date("Y-m-d");
+    include ("bd.php");// файл bd.php должен быть в той же папке, что и все остальные, если это не так, то просто измените путь 
+ 
+$result = mysql_query("SELECT * FROM users WHERE login='$login'",$db); //извлекаем из базы все данные о пользователе с введенным логином
+    $myrow = mysql_fetch_array($result);
+    if ($myrow['password']==$password))
+    {
+    //если пользователя с введенным логином не существует
+    exit ("Извините, введённый вами login или пароль неверный.");
+    }
+    else {
+    //если существует, то сверяем пароли
+    if (empty($myrow['password']) {
+    // Insert data
+    $sql_insert = 
+"INSERT INTO registration_tbl (name, email, date) 
+                   VALUES (?,?,?)";
+    $stmt = $conn->prepare($sql_insert);
+    $stmt->bindValue(1, $name);
+    $stmt->bindValue(2, $email);
+    $stmt->bindValue(3, $date);
+    $stmt->execute();
+}
+catch(Exception $e) {
+    die(var_dump($e));
+}
+echo "<h3>Your're registered!</h3>";
+}}
+$sql_select = "SELECT * FROM registration_tbl";
+$stmt = $conn->query($sql_select);
+$registrants = $stmt->fetchAll(); 
+if(count($registrants) > 0) {
+    echo "<h2>People who are registered:</h2>";
+    echo "<table>";
+    echo "<tr><th>Name</th>";
+    echo "<th>Email</th>";
+    echo "<th>Date</th></tr>";
+    foreach($registrants as $registrant) {
+        echo "<tr><td>".$registrant['name']."</td>";
+        echo "<td>".$registrant['email']."</td>";
+        echo "<td>".$registrant['date']."</td></tr>";
+    }
+    echo "</table>";
+} else {
+    echo "<h3>No one is currently registered.</h3>";
+}
+?>
+</body>
+</html>
