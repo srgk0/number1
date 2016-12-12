@@ -1,94 +1,114 @@
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ 
+if(isset($_POST['submit']))
+{
+    $mysqli = new mysqli("localhost", "root", "", "test");
+ 
+    if (mysqli_connect_errno()) 
+    {
+        printf("Подключение невозможно: %s\n", mysqli_connect_error());
+        exit();
+    }
+    
+    $error = '';
+    
+    if($_POST['mail'] !== $_POST['r_mail'])
+    {
+        $error .='<p>Email не совпадает с повтором</p>';
+    }
+    
+    if($_POST['password'] !== $_POST['r_password'])
+    {
+        $error .= '<p>Не совпадают пароли</p>';
+    }
+    
+    if ($stmt = $mysqli->prepare("SELECT `email` FROM `users` WHERE `email` = ?")) 
+    {
+        $stmt->bind_param("s", $email);
+        $email = $_POST['mail'];
+ 
+        $stmt->execute();
+        $stmt->store_result();
+       
+        if($stmt->num_rows > 0)
+        {
+            $error .= 'такой Email уже есть  в базе';
+        }
+    }
+    
+    if(empty($error))
+    {
+        if($stmt = $mysqli->prepare("INSERT INTO `users` VALUES ('',?, ?, ?, ?)"))
+        {
+            $stmt->bind_param('ssss', $name, $login, $email, $pass);
+ 
+            $name = $_POST['name'];
+            $login = $_POST['login'];
+            $email = $_POST['mail'];
+            $pass = $_POST['password'];
+ 
+            /* выполнение подготовленного выражения  */
+            $stmt->execute();
+ 
+            if($stmt->affected_rows > 0)
+            {
+                $message = '<p>Вы зарегистрированы</p>';
+            }
+            else
+            {
+                $error .= '<p>Регистрация не удалась</p>';
+            }
+        }
+    }
+}
+$stmt->close();
+$mysqli->close();
+?>
+<!DOCTYPE html>
 <html>
 <head>
-<Title>Registration Form</Title>
-<style type="text/css">
-    body { background-color:
- #fff; border-top: solid 10px #000;
- color: #333; font-size: .85em;
- margin: 20; padding: 20;
- font-family: "Segoe UI",
- Verdana, Helvetica, Sans-Serif;
-    }
-    h1, h2, h3,{ color: #000; 
-margin-bottom: 0; padding-bottom: 0; }
-    h1 { font-size: 2em; }
-    h2 { font-size: 1.75em; }
-    h3 { font-size: 1.2em; }
-    table { margin-top: 0.75em; }
-    th { font-size: 1.2em;
- text-align: left; border: none; padding-left: 0; }
-    td { padding: 0.25em 2em 0.25em 0em; 
-border: 0 none; }
-</style>
+    <meta charset="utf-8" />
+    <title>Реєстрація - PradGO</title>
 </head>
-<body>
-<h1>Register here!</h1>
-<p>Fill in your name and 
-email address, then click <strong>Submit</strong> 
-to register.</p>
-<form method="post" action="index.php" 
-enctype="multipart/form-data" >
-      Name  <input type="text" 
-name="name" id="name"/></br>
-      Email <input type="text" 
-name="email" id="email"/></br>
-      <input type="submit" 
-name="submit" value="Submit" />
-</form>
-<?php
-// DB connection info
-$host = "tcp:srgk01.database.windows.net,1433";
-$user = "ytrewq";
-$pwd = "QWERTYqwerty123";
-$db = "forzelen";
-// Connect to database.
-try {
-    $conn = new PDO("sqlsrv:server = tcp:srgk01.database.windows.net,1433; Database = forzelen", "ytrewq", "QWERTYqwerty123");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
-    print("Error connecting to SQL Server.");
-    die(print_r($e));
-}
-if(!empty($_POST)) {
-try {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $date = date("Y-m-d");
-    
-    // Insert data
-    $sql_insert = 
-"INSERT INTO registration_tbl (name, email, date) 
-                   VALUES (?,?,?)";
-    $stmt = $conn->prepare($sql_insert);
-    $stmt->bindValue(1, $name);
-    $stmt->bindValue(2, $email);
-    $stmt->bindValue(3, $date);
-    $stmt->execute();
-}
-catch(Exception $e) {
-    die(var_dump($e));
-}
-echo "<h3>Your're registered!</h3>";
-}
-$sql_select = "SELECT * FROM registration_tbl";
-$stmt = $conn->query($sql_select);
-$registrants = $stmt->fetchAll(); 
-if(count($registrants) > 0) {
-    echo "<h2>People who are registered:</h2>";
-    echo "<table>";
-    echo "<tr><th>Name</th>";
-    echo "<th>Email</th>";
-    echo "<th>Date</th></tr>";
-    foreach($registrants as $registrant) {
-        echo "<tr><td>".$registrant['name']."</td>";
-        echo "<td>".$registrant['email']."</td>";
-        echo "<td>".$registrant['date']."</td></tr>";
+<style>
+    .error{
+        color:#C00;
     }
-    echo "</table>";
-} else {
-    echo "<h3>No one is currently registered.</h3>";
-}
-?>
+    .mess{
+        color:#00b33c;
+    }
+</style>
+<body>
+    
+    <center> 
+        <h1>Реєстрація</h1>
+        <div class="error"><?php if(!empty($error)){echo $error;}?></div>
+        <div class="mess"><?php if(!empty($message)){echo $message;}?></div>
+        <form id="form" action="" method="post">
+            <p>
+                <input type="text" name="name" weight="20" size="20" maxlength="15" placeholder="Ім'я" required="Заповніть це поле" />
+            </p>
+            <p>
+                <input type="text" name="login" weight="20" size="20" maxlength="10" placeholder="Логін" required="Заповніть це поле" />
+            </p>
+            <p>
+                <input type="text" name="mail" size="20" maxlength="35" placeholder="Емейл адрес" required="Заповніть це поле" />
+            </p>
+            <p>
+                <input type="text" name="r_mail" size="20" maxlength="35" placeholder="Повторіть емейл адрес" required="Заповніть це поле" />
+            </p>
+            <p>
+                <input type="password" name="password" size="20" maxlength="15" placeholder="Пароль" required="Заповніть це поле" />
+            </p>
+            <p>
+                <input type="password" name="r_password" size="20" maxlength="15" placeholder="Повторіть пароль" required="Заповніть це поле" />
+            </p>
+            <p>
+                <input type="submit" name="submit" value="Зареєструватися" />
+            </p>
+        </form>
+    </center>
 </body>
 </html>
