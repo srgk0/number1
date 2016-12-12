@@ -55,10 +55,22 @@ try {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $date = date("Y-m-d");
-    $result = mysql_query("SELECT id FROM registration_tbl WHERE login='$email'",$dbcon);
+    include ("bd.php");// файл bd.php должен быть в той же папке, что и все остальные, если это не так, то просто измените путь 
+ // проверка на существование пользователя с таким же логином
+    $result = mysql_query("SELECT id FROM users WHERE login='$name'",$db);
     $myrow = mysql_fetch_array($result);
-    if (!empty($myrow["id"])) {
-    exit ("Извините, введённый вами логин уже зарегистрирован.<a href='forma_reg.php'> Введите другой логин</a>.");
+    if (!empty($myrow['id'])) {
+    exit ("Извините, введённый вами логин уже зарегистрирован. Введите другой логин.");
+    }
+ // если такого нет, то сохраняем данные
+    $result2 = mysql_query ("INSERT INTO users (login,password) VALUES('$login','$password')");
+    // Проверяем, есть ли ошибки
+    if ($result2=='TRUE')
+    {
+    echo "Вы успешно зарегистрированы! Теперь вы можете зайти на сайт. <a href='index.php'>Главная страница</a>";
+    }
+ else {
+    echo "Ошибка! Вы не зарегистрированы.";
     }
     // Insert data
     $sql_insert = 
